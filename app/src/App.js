@@ -7,13 +7,26 @@ const App=()=> {
   const[jobsData,setJobsData]=useState(data);
   const[searchValue,setSearchValue]=useState();
   const[LocationValue,setLocationValue]=useState();
+   const [tick,setTick]=useState(false);
 
   
   function handleFunction(event){
            setSearchValue(event.target.value);
-           const JD= jobsData.filter((item)=> item.company.trim().toLowerCase()===searchValue);
-           setJobsData(JD);
+             if(!event.target.value){
+            setJobsData(data);
+          }
   }
+
+  
+  function handleSearch(){
+    const JD= jobsData.filter((item)=> item.company.trim().toLowerCase()===searchValue.trim().toLowerCase());
+   
+    setJobsData(JD);
+     
+
+   }
+ 
+  
   function handleLocation(event){
     const Talue=event.target.value;
     setSearchValue(Talue);
@@ -21,18 +34,20 @@ const App=()=> {
     setJobsData(PD);
 }
 
-  function handlePunction(){
-    setJobsData(data);
-}
-     function handleOnClick(){
+
+
+
+
+ function handleCheckBox(){
         const FullTime=  jobsData.filter((item)=>
-                 item.contract.trim()==="Full Time")
+        item.contract.trim()==="Full Time")
         console.log(FullTime);
         setJobsData(FullTime);  
 
      }
-
+    
  
+
   
   return (
  <>
@@ -40,10 +55,10 @@ const App=()=> {
   <input type='search' value={searchValue} onChange={(event)=>handleFunction(event)} placeholder='Filter by title,Company,experstise...'/>
   <input type='search' value={LocationValue} onChange={(event)=>handleLocation(event)} placeholder='Filter by Location...'/>
 
-  <button onClick={()=>handlePunction()}>search</button>
-  <input type='checkbox'   onClick={()=>handleOnClick()  }/>
+  <button onClick={()=>handleSearch()}>search</button>
+  <input type='checkbox'   onClick={()=>handleCheckBox()  }/>
   <Job data={jobsData} setData={setJobsData} />
-    
+  <button>loadmore</button>  
  
   </>
   )
